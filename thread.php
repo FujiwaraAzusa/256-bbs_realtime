@@ -54,7 +54,7 @@ if ($result->num_rows > 0) {
     $commentCount = $row["row_count"];
 }
 
-echo "<script>let commentcount".$commentCount."</script>";
+echo "<script>let commentcount = ".$commentCount.";</script>";
 ?>
 
 <!DOCTYPE html>
@@ -147,7 +147,7 @@ echo "<script>let commentcount".$commentCount."</script>";
             }
         })
     </script>-->
-        <script>
+    <script>
         const darkModeButton = document.getElementById('darkModeButton');
         const content = document.getElementById('dark-mode');
         const DARK_MODE_COOKIE_NAME = 'darkMode';
@@ -190,6 +190,34 @@ echo "<script>let commentcount".$commentCount."</script>";
         }
 
         textarea.addEventListener('input', adjustTextareaRows);
+    </script>
+    <script>//5秒毎のXMLによる新規コメント確認
+        setInterval(function() {
+            checknew();
+        }, 4000);
+
+        function checknew() {
+            var xhr = new XMLHttpRequest();
+            var url = "hecknewcomment.php";
+            var data = 'threadname='+/*ここ！*/+'&count='+commentcount;
+
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+                    var newjsonArray = response.dataArray; // dataArrayはPHPスクリプトで定義されたJSONキーに合わせてください
+                    if (newjsonArray[0] == "no") {
+                        //スルー
+                    } else {
+                        //ログの追加処理
+                    }
+                }
+            };
+
+            xhr.send(data);
+        }
     </script>
 </body>
 
