@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($stmt->rowCount() > 0) {
         session_unset();
         session_destroy();
-        session_set_cookie_params(10368000);
+        session_set_cookie_params(10368000);//セッションの期限の延長
         session_start();
         $user = $stmt->fetch();
         $_SESSION['email'] = $email;
