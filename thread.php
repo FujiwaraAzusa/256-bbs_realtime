@@ -1,4 +1,4 @@
-<?php
+<?php/*
 session_start();
 require_once 'dbconnect.php';
 ini_set("display_errors", 1);
@@ -42,6 +42,18 @@ if (isset($_GET['name']) && !empty($_GET['name'])) {
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
 }
+*/
+$commentCount = 0;
+//スレッド内部の書き込み総数を取得
+$sql = "SELECT COUNT(*) as row_count FROM thread_{$threadName}";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $commentCount = $row["row_count"];
+    $conn->close();
+}
+
+echo "<script>let commentcount".$commentCount."</script>";
 ?>
 
 <!DOCTYPE html>
@@ -86,19 +98,19 @@ if (isset($_GET['name']) && !empty($_GET['name'])) {
         <label>画像アップローダー</label>
         <form action="img-upload.php" method="post" enctype="multipart/form-data">
             <label for="image">画像を選択してください:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
+            <input type="file" id="image" name="image" required><!--大変身勝手ながrあ僕のガラケーで動かすためには形式指定を外すのです！-->
             <input type="submit" value="アップロード">
         </form>
 
         <h3>書き込み</h3>
     
         <?php
-        // カスタムのエスケープ関数
-        function custom_escape($str) {
-            return nl2br(htmlspecialchars($str, ENT_QUOTES));
-        }
+            // カスタムのエスケープ関数
+            function custom_escape($str) {
+                return nl2br(htmlspecialchars($str, ENT_QUOTES));
+            }
 
-        foreach ($comments as $comment) {
+            foreach ($comments as $comment) {
             echo '<p>' . $comment['id'] . ' <strong>'. custom_escape($comment['username']) . '</strong> ' . $comment['created_at'] . '<br>';
 
             // コメント内のURLを解析して画像ファイルを<img>タグで表示
