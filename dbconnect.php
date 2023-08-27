@@ -2,7 +2,7 @@
 // DB接続情報
 $host = 'localhost';
 $dbname = 'bbs';
-$user = 'php-login';
+$user = 'root';//注意！！！
 $pass = '';
 
 try {
