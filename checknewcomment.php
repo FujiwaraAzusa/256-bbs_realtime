@@ -3,6 +3,7 @@ session_start();
 require_once 'dbconnect.php';
 ini_set("display_errors", 1);
 error_reporting(E_ALL);
+header('Content-Type: application/json');
 
 // セッションにログイン情報がない場合はログインページにリダイレクト
 if (!isset($_SESSION['email'])) {
@@ -22,8 +23,11 @@ if ($result->num_rows > 0) {
 
 if ($_POST['count'] > $commentCount) {
     //新規コメントの内容をjsonで古い順に送信
+    echo json_encode($response);
 } else {
     //0を返す
+    $response['dataArray'] = array("no");
+    echo json_encode($response);
 }
 
 ?>
