@@ -53,7 +53,7 @@ if ($result) {
     $commentCount = $row["row_count"];
 }
 
-echo "<script>let commentcount = ".$commentCount.";</script>";
+echo "<script>let commentcount = ".$commentCount."; let threadName = '".$threadName."';</script>";
 ?>
 
 <!DOCTYPE html>
@@ -198,7 +198,7 @@ echo "<script>let commentcount = ".$commentCount.";</script>";
         function checknew() {
             var xhr = new XMLHttpRequest();
             var url = "checknewcomment.php";
-            var data = 'threadname='+/*ここ！*/+'&count='+commentcount;
+            var data = "threadName=" + encodeURIComponent(threadName) + "&commentCount=" + encodeURIComponent(commentCount);
 
             xhr.open("POST", url, true);
             xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -211,12 +211,12 @@ echo "<script>let commentcount = ".$commentCount.";</script>";
                         //スルー
                     } else {
                         //ログの追加処理
-                    }
                 }
-            };
+            }
+        };
 
-            xhr.send(data);
-        }
+        xhr.send(data);
+    }   
     </script>
 </body>
 

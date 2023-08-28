@@ -11,8 +11,8 @@ if (!isset($_SESSION['email'])) {
     exit;
 }
 
-$threadName = "test";
-$commentCount = 0;
+$threadName = $_POST["threadName"];
+$commentCount = $_POST["count"];
 //スレッド内部の書き込み総数を取得
 $sql = "SELECT COUNT(*) as row_count FROM thread_{$_POST['thread']}";
 $result = $dbh->query($sql);
