@@ -53,7 +53,7 @@ if ($result) {
     $commentCount = $row["row_count"];
 }
 
-echo "<script>let commentcount = ".$commentCount."; let threadName = '".$threadName."';</script>";
+echo "<script>let commentCount = ".$commentCount."; let threadName = '".$threadName."';</script>";
 ?>
 
 <!DOCTYPE html>
