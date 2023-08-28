@@ -207,11 +207,12 @@ echo "<script>let commentCount = ".$commentCount."; let threadName = '".$threadN
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     var response = JSON.parse(xhr.responseText);
                     var newjsonArray = response.dataArray; // dataArrayはPHPスクリプトで定義されたJSONキーに合わせてください
-                    if (newjsonArray[0] == "no") {
+                    if (response[0] === "no") {
                         //スルー
                     } else {
                         //ログの追加処理
-                }
+                        alert("増えた");
+                    }
             }
         };
 

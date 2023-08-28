@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 0);
 session_start();
 require_once 'dbconnect.php';
 ini_set("display_errors", 1);
@@ -26,7 +27,17 @@ if ($result) {
 
 if ($RcommentCount > $commentCount) {
     //新規コメントの内容をjsonで古い順に送信
-    echo json_encode($response);
+    $commentCount += 1;
+    $sql = "SELECT id, username, comment, created_at FROM thread_{$threadName} WHERE id >= ".$commentCount." AND id <= ".$RcommentCount." ORDER BY id";
+    $result = $dbh->query($sql);
+
+    $response = array();
+    if ($result) {
+        while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+            $response[] = $row; // レスポンスに行データを追加
+        }
+}
+echo json_encode($response);
 } else {
     //0を返す
     $response = array("no");
