@@ -4,7 +4,7 @@ session_start();
 require_once 'dbconnect.php';
 ini_set("display_errors", 1);
 error_reporting(E_ALL);
-/*
+
 // セッションにログイン情報がない場合はログインページにリダイレクト
 if (!isset($_SESSION['email'])) {
     header('Location: login.php');
@@ -43,14 +43,13 @@ if (isset($_GET['name']) && !empty($_GET['name'])) {
     header('Location: ' . $_SERVER['HTTP_REFERER']);
     exit;
 }
-*/
-$threadName = "test";
+
 $commentCount = 0;
 //スレッド内部の書き込み総数を取得
 $sql = "SELECT COUNT(*) as row_count FROM thread_{$threadName}";
 $result = $dbh->query($sql);
-if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
+if ($result) {
+    $row = $result->fetch(PDO::FETCH_ASSOC);
     $commentCount = $row["row_count"];
 }
 
@@ -198,7 +197,7 @@ echo "<script>let commentcount = ".$commentCount.";</script>";
 
         function checknew() {
             var xhr = new XMLHttpRequest();
-            var url = "hecknewcomment.php";
+            var url = "checknewcomment.php";
             var data = 'threadname='+/*ここ！*/+'&count='+commentcount;
 
             xhr.open("POST", url, true);
