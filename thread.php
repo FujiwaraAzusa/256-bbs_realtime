@@ -102,7 +102,7 @@ echo "<script>let commentCount = ".$commentCount."; let threadName = '".$threadN
             <input type="submit" value="アップロード">
         </form>
 
-        <h3>書き込み</h3>
+        <h3 id="kakikomi">書き込み</h3>
     
         <?php
             // カスタムのエスケープ関数
@@ -193,7 +193,7 @@ echo "<script>let commentCount = ".$commentCount."; let threadName = '".$threadN
     <script>//5秒毎のXMLによる新規コメント確認
         setInterval(function() {
             checknew();
-        }, 4000);
+        }, 2000);
 
         function checknew() {
             var xhr = new XMLHttpRequest();
@@ -210,8 +210,13 @@ echo "<script>let commentCount = ".$commentCount."; let threadName = '".$threadN
                     if (response[0] === "no") {
                         //スルー
                     } else {
-                        //ログの追加処理
-                        alert("増えた");
+                        for (let i = 0; i < response.length;) {
+                            commentCount += 1;
+                            var newElement = document.createElement("p");
+                            newElement.innerHTML = response[i].id + " <strong>" + response[i].username + "</strong> " + response[i].created_at + "<br>" + response[i].comment;
+                            kakikomi.parentNode.insertBefore(newElement, kakikomi.nextSibling);
+                            i++;
+                        }
                     }
             }
         };
